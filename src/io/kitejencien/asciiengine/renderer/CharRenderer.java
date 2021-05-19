@@ -86,4 +86,14 @@ public abstract class CharRenderer {
         }
         this.canvas = out;
     }
+
+    public double calcBrightness(int[][] pixels){
+        double brightness = 0;
+        for(int[] i : pixels){
+            for(int j : i){
+                brightness += j;
+            }
+        }
+        return brightness / (255*SAMPLE_SIZE*SAMPLE_SIZE);
+    }
 }

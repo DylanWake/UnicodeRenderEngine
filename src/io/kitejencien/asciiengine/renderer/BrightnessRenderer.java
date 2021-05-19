@@ -20,13 +20,6 @@ public class BrightnessRenderer extends CharRenderer {
 
     @Override
     public double calculateCost(int[][] pixels, CharData current) {
-        double brightness = 0;
-        for(int[] i : pixels){
-            for(int j : i){
-                brightness += j;
-            }
-        }
-        brightness /= 255*9;
-        return Math.abs(current.getBrightness() - brightness);
+        return Math.abs(current.getBrightness() - calcBrightness(pixels));
     }
 }

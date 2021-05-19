@@ -54,8 +54,13 @@ public class SampleMapRenderer extends CharRenderer{
             }
         }
 
-        double[][] heatMap = new double[SAMPLE_SIZE][SAMPLE_SIZE];
-        return 0;
-
+        double cost = 0;
+        for(int i = 0; i < SAMPLE_SIZE; i++){
+            for(int j = 0; j < SAMPLE_SIZE; j++){
+                cost += Math.pow(((double) (pixels[i][j] - min)/(max-min))
+                        - current.getSampleMap()[i][j],2);
+            }
+        }
+        return cost * Math.abs(current.getBrightness() - calcBrightness(pixels));
     }
 }

@@ -10,8 +10,7 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException, IOException {
-        BufferedImage image = ImageUtils.readImage("abc.png");
-        image = new ColorConvertOp(ColorSpace.getInstance(ColorSpace.CS_GRAY), null).filter(image, null);
-        System.out.println(image.getRGB(0,0));
+        DataGenerator generator = new DataGenerator();
+        generator.generateData(0,65535, "UnicodeSet.txt");
     }
 }
