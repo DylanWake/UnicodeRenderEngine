@@ -1,6 +1,7 @@
 package io.kitejencien.asciiengine.database;
 
 import io.kitejencien.asciiengine.io.ImageUtils;
+import io.kitejencien.asciiengine.renderer.CharRenderer;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -18,7 +19,7 @@ public class DataGenerator {
     public final int DISPLAY_WIDTH = 100;
     public final int DISPLAY_HEIGHT = 100;
     public final int FONT_SIZE = 50;
-    public final int SAMPLE_MAP_SIZE = 3;
+    public final int SAMPLE_MAP_SIZE = CharRenderer.SAMPLE_SIZE;
 
     public void generateData(int min, int max, String pathname) throws IOException {
 

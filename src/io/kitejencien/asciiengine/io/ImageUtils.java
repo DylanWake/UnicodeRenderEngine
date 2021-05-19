@@ -2,7 +2,9 @@ package io.kitejencien.asciiengine.io;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.color.ColorSpace;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorConvertOp;
 import java.io.File;
 import java.io.IOException;
 
@@ -19,12 +21,14 @@ public class ImageUtils {
         return new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
     }
 
-    public static int[][][] constructImageArray(BufferedImage image){
+    public static int[][] constructImageArray(BufferedImage image){
 
-        int[][][] output = new int[image.getWidth()][image.getHeight()][];
+        int[][] output = new int[image.getWidth()][image.getHeight()];
+        image = new ColorConvertOp(ColorSpace.getInstance(ColorSpace.CS_GRAY), null).filter(image, null);
         for (int x = 0; x < image.getWidth(); x++){
             for(int y=0; y < image.getHeight(); y++){
-                output[x][y] = convertRGB(image.getRGB(x, y));
+                int[] rgb = convertRGB(image.getRGB(x,y));
+                output[x][y] = ((rgb[0] + rgb[1] + rgb[2])/3);
             }
         }
         return output;

@@ -1,5 +1,7 @@
 package io.kitejencien.asciiengine.database;
 
+import io.kitejencien.asciiengine.renderer.CharRenderer;
+
 /**
  * @author kitejencien
  */
@@ -15,6 +17,23 @@ public class CharData {
         this.content = content;
         this.brightness = brightness;
         this.sampleMap = sampleMap;
+    }
+
+    public CharData(String input){
+
+        String[] parts = input.split(" ");
+
+        this.id = Integer.parseInt(parts[0]);
+        this.content = parts[1].charAt(0);
+        this.brightness = Double.parseDouble(parts[2]);
+
+        double[][] samples = new double[CharRenderer.SAMPLE_SIZE][CharRenderer.SAMPLE_SIZE];
+        for(int x=0; x < CharRenderer.SAMPLE_SIZE; x++){
+            for(int y=0; y < CharRenderer.SAMPLE_SIZE; y++){
+                samples[x][y] = Double.parseDouble(parts[3 + x*CharRenderer.SAMPLE_SIZE + y]);
+            }
+        }
+        this.sampleMap = samples;
     }
 
     public int getId() {
