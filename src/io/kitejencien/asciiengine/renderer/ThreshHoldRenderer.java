@@ -20,6 +20,8 @@ public class ThreshHoldRenderer extends CharRenderer{
 
     @Override
     public double calculateCost(int[][] pixels, CharData current) {
-        return pixels[0][0] > 0 ? 1 : 0;
+        if(current.getContent() == ' ')
+            return pixels[0][0] > 0 ? 1 : 0;
+        return pixels[0][0] > 0 ? 0 : 1;
     }
 }

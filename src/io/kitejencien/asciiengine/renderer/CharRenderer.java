@@ -62,6 +62,7 @@ public abstract class CharRenderer {
      */
     public void onRender(int[][] pixels){
 
+        this.dataSet.add(new CharData(65536,' ',0, new double[][]{{0,0,0},{0,0,0},{0,0,0}}));
         char[][] out = new char[CANVAS_WIDTH][this.canvasHeight];
 
         for(int x = 0; x < CANVAS_WIDTH; x++){
