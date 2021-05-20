@@ -25,6 +25,7 @@ public class ImageUtils {
 
         int[][] output = new int[image.getWidth()][image.getHeight()];
         image = new ColorConvertOp(ColorSpace.getInstance(ColorSpace.CS_GRAY), null).filter(image, null);
+
         for (int x = 0; x < image.getWidth(); x++){
             for(int y=0; y < image.getHeight(); y++){
                 int[] rgb = convertRGB(image.getRGB(x,y));

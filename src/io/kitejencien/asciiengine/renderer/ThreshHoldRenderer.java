@@ -9,10 +9,13 @@ import java.io.IOException;
  * @author KiteJencien
  */
 public class ThreshHoldRenderer extends CharRenderer{
+
+    double THRESH_HOLD = 0.5;
+
     @Override
     public void onLoadData() {
         try {
-            this.dataSet = DataBaseUtils.readLines('■');
+            this.dataSet = DataBaseUtils.readLines('█');
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -20,8 +23,11 @@ public class ThreshHoldRenderer extends CharRenderer{
 
     @Override
     public double calculateCost(int[][] pixels, CharData current) {
-        if(current.getContent() == ' ')
-            return pixels[0][0] > 0 ? 1 : 0;
-        return pixels[0][0] > 0 ? 0 : 1;
+        if(current.getContent() == ' '){
+            return (calcBrightnessComplete(pixels) - min_brightness)/(max_brightness - min_brightness)
+                    > THRESH_HOLD ? 1 : 0;
+        }
+        return (calcBrightnessComplete(pixels) - min_brightness)/(max_brightness - min_brightness)
+                > THRESH_HOLD ? 0 : 1;
     }
 }

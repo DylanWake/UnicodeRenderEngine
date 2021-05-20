@@ -5,7 +5,9 @@ import io.kitejencien.asciiengine.io.ImageUtils;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * core renderer interface
@@ -15,6 +17,9 @@ public abstract class CharRenderer {
 
     public static final int CANVAS_WIDTH = 100;
     public static final int SAMPLE_SIZE = 3;
+
+    int max_brightness = 0;
+    int min_brightness = 255;
 
     public ArrayList<CharData> dataSet;
     public BufferedImage currentTarget;
@@ -44,7 +49,8 @@ public abstract class CharRenderer {
         int w = img.getWidth();
         int h = img.getHeight();
         int procW = CANVAS_WIDTH*SAMPLE_SIZE;
-        int procH = h * ((CANVAS_WIDTH*SAMPLE_SIZE)/w);
+        int procH = (int)(h * (((double)CANVAS_WIDTH*SAMPLE_SIZE)/w));
+
         this.canvasHeight = procH / SAMPLE_SIZE;
 
         // resize
@@ -65,20 +71,27 @@ public abstract class CharRenderer {
         this.dataSet.add(new CharData(65536,' ',0, new double[][]{{0,0,0},{0,0,0},{0,0,0}}));
         char[][] out = new char[CANVAS_WIDTH][this.canvasHeight];
 
+        for(int[] line : pixels){
+            for(int i : line){
+                this.max_brightness = Math.max(i, max_brightness);
+                this.min_brightness = Math.min(i, min_brightness);
+            }
+        }
+
         for(int x = 0; x < CANVAS_WIDTH; x++){
             for(int y = 0; y < this.canvasHeight; y++){
 
                 int[][] samples = new int[SAMPLE_SIZE][SAMPLE_SIZE];
 
                 for (int i = 0; i < SAMPLE_SIZE; i++) {
-                    System.arraycopy(pixels[3 * x + i], 3 * y, samples[i], 0, SAMPLE_SIZE);
+                    System.arraycopy(pixels[SAMPLE_SIZE * x + i], 3 * y + 0, samples[i], 0, SAMPLE_SIZE);
                 }
 
                 double cost = Double.MAX_VALUE;
                 char selected = '0';
                 for(CharData data : dataSet) {
                     double o = cost;
-                    cost = Math.min(cost, calculateCost(pixels, data));
+                    cost = Math.min(cost, calculateCost(samples, data));
                     selected = cost < o ? data.getContent() : selected;
                 }
                 out[x][y] = selected;
@@ -87,13 +100,23 @@ public abstract class CharRenderer {
         this.canvas = out;
     }
 
-    public double calcBrightness(int[][] pixels){
+    public double calcBrightness(int[][] samples){
         double brightness = 0;
-        for(int[] i : pixels){
+        for(int[] i : samples){
             for(int j : i){
                 brightness += j;
             }
         }
         return brightness / (255*SAMPLE_SIZE*SAMPLE_SIZE);
+    }
+
+    public double calcBrightnessComplete(int[][] samples){
+        double brightness = 0;
+        for(int[] i : samples){
+            for(int j : i){
+                brightness += j;
+            }
+        }
+        return brightness / (SAMPLE_SIZE*SAMPLE_SIZE);
     }
 }

@@ -9,6 +9,8 @@ import java.io.IOException;
  * @author Kitejencien
  */
 public class BrightnessRenderer extends CharRenderer {
+
+
     @Override
     public void onLoadData() {
         try {
@@ -20,6 +22,7 @@ public class BrightnessRenderer extends CharRenderer {
 
     @Override
     public double calculateCost(int[][] pixels, CharData current) {
-        return Math.abs(current.getBrightness() - calcBrightness(pixels));
+        return Math.abs(current.getBrightness() - (calcBrightnessComplete(pixels) - min_brightness)
+                /(max_brightness - min_brightness));
     }
 }

@@ -2,6 +2,8 @@ package io.kitejencien.asciiengine.database;
 
 import io.kitejencien.asciiengine.renderer.CharRenderer;
 
+import java.util.Arrays;
+
 /**
  * @author kitejencien
  */
@@ -50,5 +52,10 @@ public class CharData {
 
     public double[][] getSampleMap() {
         return sampleMap;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(content);
     }
 }

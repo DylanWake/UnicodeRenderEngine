@@ -61,6 +61,7 @@ public class SampleMapRenderer extends CharRenderer{
                         - current.getSampleMap()[i][j],2);
             }
         }
-        return cost * Math.abs(current.getBrightness() - calcBrightness(pixels));
+        return cost * Math.abs(current.getBrightness() - (calcBrightnessComplete(pixels) - min_brightness)
+                /(max_brightness - min_brightness));
     }
 }
