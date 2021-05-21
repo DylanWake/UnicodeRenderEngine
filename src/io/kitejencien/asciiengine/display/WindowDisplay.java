@@ -34,7 +34,7 @@ class DisplayPanel extends JPanel{
         g.setColor(Color.BLACK);
         g.fillRect(0,0, this.getWidth(), this.getHeight());
         g.setColor(Color.WHITE);
-        g.setFont(new Font("黑体",Font.PLAIN,FONT_SIZE));
+        g.setFont(new Font("黑体",Font.BOLD,FONT_SIZE));
 
         if(display.canvas == null) return;
 
@@ -42,7 +42,7 @@ class DisplayPanel extends JPanel{
             for (int x = 0; x < display.canvas.length; x++) {
                 g.drawString(String.valueOf(display.canvas[x][y]),
                         MARGIN + x*PIXEL_CHARACTER_SEPATATION,
-                        MARGIN + (int)(y*PIXEL_CHARACTER_SEPATATION*1.4));
+                        MARGIN + (int)(y*PIXEL_CHARACTER_SEPATATION));
             }
         }
     }

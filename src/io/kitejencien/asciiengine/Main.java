@@ -21,7 +21,7 @@ public class Main {
         renderer.onLoadData();
         Display display = new WindowDisplay();
 
-        BufferedImage input = ImageIO.read(new File("frisk.jpg"));
+        BufferedImage input = ImageIO.read(new File("TY.jpg"));
         renderer.onRender(input);
         display.onUpdate(renderer.canvas);
         System.out.println("calculate done");

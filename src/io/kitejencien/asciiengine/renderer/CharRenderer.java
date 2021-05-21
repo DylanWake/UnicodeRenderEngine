@@ -15,7 +15,7 @@ import java.util.Arrays;
  */
 public abstract class CharRenderer {
 
-    public static final int CANVAS_WIDTH = 100;
+    public static final int CANVAS_WIDTH = 120;
     public static final int SAMPLE_SIZE = 3;
 
     int max_brightness = 0;
