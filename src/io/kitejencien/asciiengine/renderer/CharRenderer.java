@@ -15,7 +15,9 @@ import java.util.Arrays;
  */
 public abstract class CharRenderer {
 
-    public static final int CANVAS_WIDTH = 120;
+    public static final int CANVAS_WIDTH = 90;
+    public static final int CANVAS_HEIGHT_STANDARD = CANVAS_WIDTH* 16 / 9;
+    public static final int STANDARD_CANVAS_CC = CharRenderer.CANVAS_WIDTH * CharRenderer.CANVAS_HEIGHT_STANDARD;
     public static final int SAMPLE_SIZE = 3;
 
     int max_brightness = 0;
@@ -94,6 +96,7 @@ public abstract class CharRenderer {
                     cost = Math.min(cost, calculateCost(samples, data));
                     selected = cost < o ? data.getContent() : selected;
                 }
+                //System.out.println(cost);
                 out[x][y] = selected;
             }
         }
