@@ -8,14 +8,19 @@ import java.util.ArrayList;
  */
 public class INFECTION extends TextEffects{
     public ArrayList<InfectionCenter> infectionCenters = new ArrayList<>();
-    public final int infectionBufferRange = 5;
+    public final int infectionBufferRange = 10;
     int count = 0;
+
+    public INFECTION(){
+        super();
+    }
 
     @Override
     public void onFillUp() {
         StringBuilder contentB = new StringBuilder();
         selectiveSearch().forEach(contentB::append);
         String content = contentB.toString();
+        content += content;
         for (int i = 0; i < durationMap.length; i++) {
             for (int j = 0; j < durationMap[0].length; j++) {
                 durationMap[i][j] = new CharParams(content.charAt(i*durationMap.length + j), Math.random());
@@ -28,17 +33,17 @@ public class INFECTION extends TextEffects{
     }
 
     @Override
-    public void onFrame(CharParams[][] canvas) {
+    public CharParams[][] onFrame(CharParams[][] canvas) {
         for (int i = 0; i < durationMap.length; i++) {
             for (int j = 0; j < durationMap[0].length; j++) {
                 canvas[i][j] = durationMap[i][j];
                 for (InfectionCenter infectionCenter : infectionCenters) {
                     double distance = distanceTo2D(i,j,infectionCenter);
-                    if(distance < infectionCenter.affectionRadius
-                            && distance >= infectionCenter.affectionRadius - infectionBufferRange){
+                    if(distance < infectionCenter.affectionRadius + infectionBufferRange
+                            && distance >= infectionCenter.affectionRadius){
 
                         if(canvas[i][j].content != ' ' && !canvas[i][j].color.equals(Color.RED)
-                                && (canvas[i][j].chanceOfLiving > (infectionBufferRange - distance)/(double)infectionBufferRange)){
+                                && (canvas[i][j].chanceOfLiving > (-(infectionCenter.affectionRadius - distance))/(double)infectionBufferRange)){
                             canvas[i][j].color = Color.RED;
                         }
                     }
@@ -52,8 +57,8 @@ public class INFECTION extends TextEffects{
 
                     if (distance < infectionCenter.decayRadius && distance >= infectionCenter.decayRadius - infectionBufferRange){
                         if(canvas[i][j].content != ' '){
-                            canvas[i][j] = canvas[i][j].chanceOfLiving > ((infectionBufferRange -
-                                    distance)/(double)infectionBufferRange) ? canvas[i][j] : new CharParams(' ',1);
+                            canvas[i][j] = canvas[i][j].chanceOfLiving > ((
+                                    infectionCenter.decayRadius - distance)/(double)infectionBufferRange) ? canvas[i][j] : new CharParams(' ',1);
                         }
                     }
 
@@ -74,7 +79,14 @@ public class INFECTION extends TextEffects{
         });
         count++;
 
-        if (count%30 == 0) infectionCenters.add(new InfectionCenter((int)(Math.random()*durationMap.length),
+        if (count%15 == 0) infectionCenters.add(new InfectionCenter((int)(Math.random()*durationMap.length),
                 (int)(Math.random()*durationMap[0].length)));
+        return canvas;
+    }
+
+    @Override
+    public void onResetVariables() {
+        this.infectionCenters = new ArrayList<>();
+        this.count = 0;
     }
 }

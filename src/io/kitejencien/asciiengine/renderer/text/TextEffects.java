@@ -5,27 +5,6 @@ import io.kitejencien.asciiengine.renderer.CharRenderer;
 import java.awt.*;
 import java.util.ArrayList;
 
-class CharParams{
-    //options
-    double chanceOfLiving;
-    char content;
-    Color color;
-
-    public CharParams(char content, double chanceOfLiving){
-        this.content = content;
-        this.chanceOfLiving = chanceOfLiving;
-    }
-
-    @Override
-    public String toString() {
-        return "CharParams{" +
-                ", chanceOfLiving=" + chanceOfLiving +
-                ", content=" + content +
-                ", color=" + color +
-                '}';
-    }
-}
-
 class InfectionCenter{
     int x,y, affectionRadius, decayRadius;
 
@@ -33,7 +12,7 @@ class InfectionCenter{
         this.x = x;
         this.y = y;
         this.affectionRadius = 0;
-        this.decayRadius = -15;
+        this.decayRadius = -5;
     }
 }
 
@@ -45,18 +24,18 @@ public abstract class TextEffects{
     public int frameCount = 0;
     public int neededChars;
     boolean renderComplete = false;
-    String keyWord;
+    public String keyWord;
 
     TextEffects(){
         this.durationMap = new CharParams[CharRenderer.CANVAS_WIDTH][CharRenderer.CANVAS_HEIGHT_STANDARD];
         this.neededChars = CharRenderer.STANDARD_CANVAS_CC;
     }
 
-    void onLoadData(ArrayList<String> data){
+    public void onLoadData(ArrayList<String> data){
         this.data = data;
     }
 
-    void setKeyWord(String keyWord){
+    public void setKeyWord(String keyWord){
         if (keyWord.length() > 5){
             this.keyWord = keyWord.substring(0,5);
             return;
@@ -67,20 +46,24 @@ public abstract class TextEffects{
         this.keyWord = keyWord;
     }
 
-    void onReset(){
+    public void onReset(){
         this.durationMap = new CharParams[CharRenderer.CANVAS_WIDTH][CharRenderer.CANVAS_HEIGHT_STANDARD];
         this.frameCount = 0;
+        this.renderComplete = false;
+        onResetVariables();
     }
 
     /**
      * fill up the prebuild text map if needed
      */
-    abstract void onFillUp();
+    public abstract void onFillUp();
 
     /**
      * what will happen durring the rendering
      */
-    abstract void onFrame(CharParams[][] canvas);
+    public abstract CharParams[][] onFrame(CharParams[][] canvas);
+
+    public abstract void onResetVariables();
 
     public ArrayList<String> selectiveSearch(){
         ArrayList<String> selected = new ArrayList<>();
@@ -91,11 +74,18 @@ public abstract class TextEffects{
             selected.add(choice);
             charCount += choice.length();
         }
+        System.out.println(charCount);
+        System.out.println(CharRenderer.STANDARD_CANVAS_CC);
         return selected;
     }
 
     public static double distanceTo2D(int x1, int y1, InfectionCenter center){
         return Math.sqrt(Math.pow(center.x - x1,2) + Math.pow(center.y - y1,2));
     }
+
+    public boolean isRenderComplete() {
+        return renderComplete;
+    }
+
 
 }

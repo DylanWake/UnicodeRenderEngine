@@ -1,8 +1,5 @@
 import io.kitejencien.asciiengine.database.DataGenerator;
-import io.kitejencien.asciiengine.display.Display;
-import io.kitejencien.asciiengine.display.ImageOutputs;
-import io.kitejencien.asciiengine.display.TerminalDisplay;
-import io.kitejencien.asciiengine.display.WindowDisplay;
+import io.kitejencien.asciiengine.display.*;
 import io.kitejencien.asciiengine.io.ImageUtils;
 import io.kitejencien.asciiengine.renderer.*;
 
@@ -25,11 +22,11 @@ public class Main {
     }
 
     public static void renderText(){
-        TextRenderer renderer = new TextRenderer("后厂村");
+        CharRenderer renderer = new AdvancedTextRenderer();
         renderer.onLoadData();
-        ImageOutputs outputs = new ImageOutputs(renderer);
+        ColoredImageOutputs outputs = new ColoredImageOutputs(renderer);
         String outputPath = "C:\\Users\\10200\\Desktop\\Temp\\outputs";
-        int frames = 5000;
+        int frames = 1600;
 
         for (int i = 0; i < frames; i++) {
             try {

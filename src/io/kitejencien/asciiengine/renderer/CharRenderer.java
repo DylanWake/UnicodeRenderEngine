@@ -2,6 +2,7 @@ package io.kitejencien.asciiengine.renderer;
 
 import io.kitejencien.asciiengine.database.CharData;
 import io.kitejencien.asciiengine.io.ImageUtils;
+import io.kitejencien.asciiengine.renderer.text.CharParams;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -15,8 +16,8 @@ import java.util.Arrays;
  */
 public abstract class CharRenderer {
 
-    public static final int CANVAS_WIDTH = 90;
-    public static final int CANVAS_HEIGHT_STANDARD = CANVAS_WIDTH* 16 / 9;
+    public static final int CANVAS_WIDTH = 150;
+    public static final int CANVAS_HEIGHT_STANDARD = (int)(CANVAS_WIDTH* 9d / 16);
     public static final int STANDARD_CANVAS_CC = CharRenderer.CANVAS_WIDTH * CharRenderer.CANVAS_HEIGHT_STANDARD;
     public static final int SAMPLE_SIZE = 3;
 
@@ -27,6 +28,7 @@ public abstract class CharRenderer {
     public BufferedImage currentTarget;
     public int canvasHeight;
     public char[][] canvas;
+    public CharParams[][] frame;
 
     /**
      * load the data into the container
